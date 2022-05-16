@@ -1,6 +1,6 @@
 from torch import nn
 import torch
-from nets.graph_layers import MultiHeadEncoder, MultiHeadDecoder, EmbeddingNet
+from .graph_layers import MultiHeadEncoder, MultiHeadDecoder, EmbeddingNet
 from torch.distributions import Categorical
 import torch.nn.functional as F
 

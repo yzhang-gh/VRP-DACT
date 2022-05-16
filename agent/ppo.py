@@ -8,12 +8,12 @@ from tensorboard_logger import Logger as TbLogger
 import torch.multiprocessing as mp
 import torch.distributed as dist
 
-from utils import clip_grad_norms
-from nets.actor_network import Actor
-from nets.critic_network import Critic
-from utils import torch_load_cpu, get_inner_model, move_to, move_to_cuda
-from utils.logger import log_to_tb_train
-from agent.utils import validate
+from ..utils import clip_grad_norms
+from ..nets.actor_network import Actor
+from ..nets.critic_network import Critic
+from ..utils import torch_load_cpu, get_inner_model, move_to, move_to_cuda
+from ..utils.logger import log_to_tb_train
+from .utils import validate
 
 
 class Memory:

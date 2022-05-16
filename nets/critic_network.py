@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from nets.graph_layers import  MultiHeadAttentionLayerforCritic, ValueDecoder
+from .graph_layers import  MultiHeadAttentionLayerforCritic, ValueDecoder
 
 
 class Critic(nn.Module):

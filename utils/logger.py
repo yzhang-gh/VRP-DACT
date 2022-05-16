@@ -1,6 +1,6 @@
 import torch
 import math
-from utils.plots import plot_grad_flow, plot_improve_pg
+from .plots import plot_grad_flow, plot_improve_pg
 
     
 def log_to_screen(time_used, init_value, best_value, reward, costs_history, search_history,

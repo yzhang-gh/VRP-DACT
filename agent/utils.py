@@ -1,7 +1,7 @@
 import time
 import torch
 import os
-from utils.logger import log_to_screen, log_to_tb_val
+from ..utils.logger import log_to_screen, log_to_tb_val
 import torch.distributed as dist
 from torch.utils.data import DataLoader
 from tensorboard_logger import Logger as TbLogger
