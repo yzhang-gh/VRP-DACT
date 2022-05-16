@@ -1,3 +1,7 @@
+A fork of [yining043/VRP-DACT](https://github.com/yining043/VRP-DACT)
+
+---
+
 # VRP-DACT
 DACT is a learning based improvement model for solving routing problems (e.g., TSP and CVRP), which explores dual-aspect representation, dual-aspect collaborative attention (DAC-Att) and cyclic positional encoding (CPE). It is trained by n-step Proximal Policy Optimization (PPO) with a curriculum learning (CL) strategy.
 
