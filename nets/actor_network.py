@@ -62,7 +62,7 @@ class Actor(nn.Module):
                                         input_dim = self.embedding_dim, 
                                         embed_dim = self.embedding_dim)
         
-        print(self.get_parameter_number())
+        # print(self.get_parameter_number())
 
     def get_parameter_number(self):
         

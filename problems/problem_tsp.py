@@ -16,8 +16,8 @@ class TSP(object):
         self.init_val_met = init_val_met
         self.state = 'eval'
         self.P = P # for perturb
-        print(f'TSP with {self.size} nodes.', 
-              ' Do assert:', with_assert)
+        # print(f'TSP with {self.size} nodes.', 
+        #       ' Do assert:', with_assert)
         self.train()
     
     def eval(self, perturb = True):

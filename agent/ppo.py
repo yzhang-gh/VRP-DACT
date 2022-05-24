@@ -8,6 +8,7 @@ from tensorboard_logger import Logger as TbLogger
 import torch.multiprocessing as mp
 import torch.distributed as dist
 
+from ..problems.problem_tsp import get_real_seq
 from ..utils import clip_grad_norms
 from ..nets.actor_network import Actor
 from ..nets.critic_network import Critic
@@ -71,20 +72,20 @@ class PPO:
             
             # figure out the lr schedule
             self.lr_scheduler = torch.optim.lr_scheduler.ExponentialLR(self.optimizer, opts.lr_decay, last_epoch=-1,)
-                
-        
-        print(f'Distributed: {opts.distributed}')
-        
+
+
+        # print(f'Distributed: {opts.distributed}')
+
         if opts.use_cuda and not opts.distributed:
-            
+
             self.actor.to(opts.device)
             if not opts.eval_only: self.critic.to(opts.device)
-            
+
             if torch.cuda.device_count() > 1:
                 self.actor = torch.nn.DataParallel(self.actor)
                 if not opts.eval_only: self.critic = torch.nn.DataParallel(self.critic)
-                
-    
+
+
     def load(self, load_path):
         
         assert load_path is not None
@@ -105,7 +106,7 @@ class PPO:
             if self.opts.use_cuda:
                 torch.cuda.set_rng_state_all(load_data['cuda_rng_state'])
         # done
-        print(' [*] Loading data from {}'.format(load_path))
+        # print(' [*] Loading data from {}'.format(load_path))
         
     
     def save(self, epoch):
@@ -205,12 +206,14 @@ class PPO:
             obj_history.append(obj)
             if record: solution_history.append(solutions)
             
-        
-        out = (obj[:,-1].reshape(bs, val_m).min(1)[0], # batch_size, 1
-               torch.stack(obj_history,1)[:,:,0].view(bs, val_m, -1).min(1)[0],  # batch_size, T
-               torch.stack(obj_history,1)[:,:,-1].view(bs, val_m, -1).min(1)[0],  # batch_size, T
-               torch.stack(reward,1).view(bs, val_m, -1).max(1)[0], # batch_size, T
-               None if not record else torch.stack(solution_history,1))
+        out = (
+            obj[:,-1].reshape(bs, val_m).min(1)[0], # batch_size, 1
+            torch.stack(obj_history,1)[:,:,0].view(bs, val_m, -1).min(1)[0],  # batch_size, T
+            torch.stack(obj_history,1)[:,:,-1].view(bs, val_m, -1).min(1)[0],  # batch_size, T
+            torch.stack(reward,1).view(bs, val_m, -1).max(1)[0], # batch_size, T
+            None if not record else torch.stack(solution_history,1),
+            get_real_seq(best_solution)
+        )
         
         return out
       
