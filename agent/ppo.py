@@ -183,7 +183,7 @@ class PPO:
         solving_state = torch.zeros((batch_feature.size(0),1), device = self.opts.device).long()
         
         for t in tqdm(range(self.opts.T_max), disable = self.opts.no_progress_bar or not show_bar, 
-                      desc = 'rollout', bar_format='{l_bar}{bar:20}{r_bar}{bar:-20b}'):
+                      desc = 'rollout', bar_format='{l_bar}{bar:20}{r_bar}{bar:-20b}', leave=False):
             
              # pass through model
             action = self.actor(problem,
@@ -206,13 +206,17 @@ class PPO:
             obj_history.append(obj)
             if record: solution_history.append(solutions)
             
+        ## best result over data augmentation
+        min_obj, min_obj_indices = obj[:,-1].reshape(bs, val_m).min(dim=1)
+        best_sol = best_solution.reshape(bs, val_m, -1)[torch.arange(bs), min_obj_indices]
+
         out = (
-            obj[:,-1].reshape(bs, val_m).min(1)[0], # batch_size, 1
+            min_obj, # shape: (batch_size,)
             torch.stack(obj_history,1)[:,:,0].view(bs, val_m, -1).min(1)[0],  # batch_size, T
             torch.stack(obj_history,1)[:,:,-1].view(bs, val_m, -1).min(1)[0],  # batch_size, T
             torch.stack(reward,1).view(bs, val_m, -1).max(1)[0], # batch_size, T
             None if not record else torch.stack(solution_history,1),
-            get_real_seq(best_solution)
+            get_real_seq(best_sol)
         )
         
         return out
