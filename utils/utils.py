@@ -28,7 +28,7 @@ def clip_grad_norms(param_groups, max_norm=math.inf):
     :return: grad_norms, clipped_grad_norms: list with (clipped) gradient norms per group
     """
     grad_norms = [
-        torch.nn.utils.clip_grad_norm(
+        torch.nn.utils.clip_grad_norm_(
             group['params'],
             max_norm if max_norm > 0 else math.inf,  # Inf so no clipping but still call to calc
             norm_type=2

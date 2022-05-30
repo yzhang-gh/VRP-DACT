@@ -269,6 +269,18 @@ class TSPDataset(Dataset):
         return self.data[idx]
 
 
+class _TSPDataset(Dataset):
+    def __init__(self, data):
+        super(_TSPDataset, self).__init__()
+        self.data = [{"coordinates": torch.tensor(args, dtype=torch.float)} for args in data]
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        return self.data[idx]
+
+
 def get_real_seq(solutions):
     batch_size, seq_length = solutions.size()
     visited_time = torch.zeros((batch_size,seq_length))
