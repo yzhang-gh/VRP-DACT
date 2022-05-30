@@ -81,9 +81,9 @@ class PPO:
             self.actor.to(opts.device)
             if not opts.eval_only: self.critic.to(opts.device)
 
-            if torch.cuda.device_count() > 1:
-                self.actor = torch.nn.DataParallel(self.actor)
-                if not opts.eval_only: self.critic = torch.nn.DataParallel(self.critic)
+            # if torch.cuda.device_count() > 1:
+            #     self.actor = torch.nn.DataParallel(self.actor)
+            #     if not opts.eval_only: self.critic = torch.nn.DataParallel(self.critic)
 
 
     def load(self, load_path):
