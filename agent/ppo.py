@@ -110,7 +110,6 @@ class PPO:
         
     
     def save(self, epoch):
-        print('Saving model and state...')
         torch.save(
             {
                 'actor': get_inner_model(self.actor).state_dict(),
@@ -205,7 +204,7 @@ class PPO:
             reward.append(rewards)  
             obj_history.append(obj)
             if record: solution_history.append(solutions)
-            
+
         ## best result over data augmentation
         min_obj, min_obj_indices = obj[:,-1].reshape(bs, val_m).min(dim=1)
         best_sol = best_solution.reshape(bs, val_m, -1)[torch.arange(bs), min_obj_indices]
