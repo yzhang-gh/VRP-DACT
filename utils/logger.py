@@ -1,6 +1,6 @@
 import torch
 import math
-from .plots import plot_grad_flow, plot_improve_pg
+# from .plots import plot_grad_flow, plot_improve_pg
 
     
 def log_to_screen(time_used, init_value, best_value, reward, costs_history, search_history,
@@ -40,10 +40,10 @@ def log_to_screen(time_used, init_value, best_value, reward, costs_history, sear
     
 def log_to_tb_val(tb_logger, time_used, init_value, best_value, reward, costs_history, search_history,
                   batch_size, val_size, dataset_size, T, show_figs, epoch):
-    if show_figs:
-        tb_logger.log_images('validation/improve_pg',[plot_improve_pg(costs_history)], epoch)
-        tb_logger.log_images('validation/search_pg',[plot_improve_pg(search_history)], epoch)
-        
+    # if show_figs:
+    #     tb_logger.log_images('validation/improve_pg',[plot_improve_pg(costs_history)], epoch)
+    #     tb_logger.log_images('validation/search_pg',[plot_improve_pg(search_history)], epoch)
+
     tb_logger.add_scalar('validation/avg_time',  time_used.mean() / dataset_size, epoch)
     tb_logger.add_scalar('validation/avg_total_reward', reward.sum(1).mean(), epoch)
     tb_logger.add_scalar('validation/avg_step_reward', reward.mean(), epoch)
