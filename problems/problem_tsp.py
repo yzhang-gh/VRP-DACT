@@ -272,7 +272,9 @@ class TSPDataset(Dataset):
 class _TSPDataset(Dataset):
     def __init__(self, data):
         super(_TSPDataset, self).__init__()
-        self.data = [{"coordinates": torch.tensor(args, dtype=torch.float)} for args in data]
+        if type(data) != torch.Tensor:
+            data = torch.tensor(data, dtype=torch.float)
+        self.data = [{"coordinates": args} for args in data]
 
     def __len__(self):
         return len(self.data)
